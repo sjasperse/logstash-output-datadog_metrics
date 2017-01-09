@@ -26,7 +26,7 @@ module LogStash module Outputs class DatadogMetrics < LogStash::Outputs::Base
   config :metric_value, :default => "%{metric_value}"
 
   # The type of the metric.
-  config :metric_type, :validate => ["gauge", "counter", "%{metric_type}"], :default => "%{metric_type}"
+  config :metric_type, :validate => ["gauge", "counter", "histogram", "%{metric_type}"], :default => "%{metric_type}"
 
   # The name of the host that produced the metric.
   config :host, :validate => :string, :default => "%{host}"
