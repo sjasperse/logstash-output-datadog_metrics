@@ -98,7 +98,7 @@ module LogStash module Outputs class DatadogMetrics < LogStash::Outputs::Base
       request.body = series_to_json(dd_series)
       request.add_field("Content-Type", 'application/json')
       response = @client.request(request)
-      @logger.info("DD convo", :request => request.inspect, :response => response.inspect)
+      @logger.info("DD convo", :request => request.inspect, :response => response.inspect, :body => request.body)
       raise unless response.code == '202'
     rescue Exception => e
       @logger.warn("Unhandled exception", :request => request.inspect, :response => response.inspect, :exception => e.inspect)
