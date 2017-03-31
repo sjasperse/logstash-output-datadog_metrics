@@ -92,13 +92,14 @@ module LogStash module Outputs class DatadogMetrics < LogStash::Outputs::Base
     dd_series = Hash.new
     dd_series['series'] = Array(events).flatten
 
-    request = Net::HTTP::Post.new("#{@uri.path}?api_key=#{@api_key}")
+    postUrl = "#{@uri.path}?api_key=#{@api_key}"
+    request = Net::HTTP::Post.new(postUrl)
 
     begin
       request.body = series_to_json(dd_series)
       request.add_field("Content-Type", 'application/json')
       response = @client.request(request)
-      @logger.info("DD convo", :request => request.inspect, :response => response.inspect, :body => request.body)
+      @logger.info("DD convo", :request => postUrl, :response => response.inspect, :body => request.body)
       raise unless response.code == '202'
     rescue Exception => e
       @logger.warn("Unhandled exception", :request => request.inspect, :response => response.inspect, :exception => e.inspect)
